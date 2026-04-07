@@ -1,0 +1,206 @@
+\ProvidesPackage{my_thesis_style}
+% --- 基础宏包 ---
+% \usepackage[utf8]{inputenc}         % 支持UTF-8编码 (现代TeX引擎默认支持，通常不需要)
+\usepackage[T1]{fontenc}            % 改进字体渲染
+\usepackage[UTF8]{ctex}             
+% Windows系统下使用UTF-8编码的中文支持，提供中文字体和排版功能（默认中文字为宋体）
+% macOS系统下使用UTF-8编码的中文支持，提供中文字体和排版功能（默认中文字为华文宋体）
+% Linux系统下使用UTF-8编码的中文支持，提供中文字体和排版功能（默认中文字为文泉驿正黑）
+\usepackage{tocloft}                % 目录格式控制  
+\usepackage{titlesec}               % 标题格式控制
+\usepackage{geometry}               % 页面布局控制
+\usepackage{fontspec}               % 允许调用系统字体
+\usepackage{xcolor}                 % 颜色支持
+\usepackage{amsmath, amssymb}       % TA必备：处理矩阵、向量、渲染方程
+\usepackage{bm}                     % 加粗数学符号（常用于表示向量）
+\usepackage{listings}               % 核心代码显示包
+\usepackage{indentfirst}            % 强制首行缩进
+\usepackage{graphicx}               % 插入渲染截图
+\usepackage{zhnumber}               % 支持中文数字（如“第一章”中的“第一”）
+\usepackage{caption}
+\usepackage{bicaption}              % 核心：支持中英文双语题注
+\usepackage{subcaption}             % 支持分图 (a)(b)
+\usepackage{booktabs}               % 核心：提供 \toprule, \midrule, \bottomrule 实现三线表
+\usepackage{fancyhdr}               % 页眉页脚设置
+\usepackage{emptypage}              % 使空白页没有页眉页脚（适用于双面打印时的空白页）
+\usepackage{titling}                % 允许自定义标题页格式
+\usepackage{amsmath}                % 数学公式支持
+\usepackage{xeCJK}                  % 解决中文与数学公式混排时的字体问题
+\usepackage{hyperref}               % 启用文档内及外部链接跳转
+\usepackage[superscript]{cite}      % 引用文献格式设置为上标
+
+% --- 页面布局 ---
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\setlength{\parindent}{2em} % 设置首行缩进为2个中文字符宽度（即4个字符空格）
+\setCJKfamilyfont{songti}[
+  AutoFakeBold = 3
+]{SimSun}                           % 定义宋体字体族，启用自动加粗功能（AutoFakeBold）以确保在需要加粗时能正确显示
+
+% --- 字号定义 (对应中国标准字号) ---
+% \zihao{3} 是三号, \zihao{-3} 是小三, 以此类推
+\setmainfont{Times New Roman}   % 设置西文字体为 Times New Roman
+
+% 字号定义
+\newcommand{\sanhao}{\zihao{3}}
+\newcommand{\xiaosan}{\zihao{-3}}
+\newcommand{\sihao}{\zihao{4}}
+\newcommand{\xiaosi}{\zihao{-4}}
+\newcommand{\wuhao}{\zihao{5}}
+\newcommand{\headerfont}{\wuhao\kaishu} % 页眉字体：五号楷体
+
+% --- 配置页眉页脚 ---
+\pagestyle{fancy}
+\fancyhf{} % 清除所有默认设置
+
+% 单号页 (Odd) 居中 (Center)：显示固定文本
+\fancyhead[OC]{\headerfont 硕士学位论文}
+
+% 双号页 (Even) 居中 (Center)：显示当前一级标题
+% \leftmark 通常存储最近的一个 \section 内容
+% 优化页眉标题抓取，显示第x章
+\renewcommand{\sectionmark}[1]{%
+  \markboth{第\thesection 章\quad #1}{}%
+}
+\fancyhead[EC]{\headerfont \leftmark}
+
+% 设置页码（可选，通常居中显示在页脚）
+\fancyfoot[C]{\headerfont \thepage}
+
+% 去掉页眉下方的装饰横线（如果需要留着，设为 0.4pt）
+\renewcommand{\headrulewidth}{0.4pt}
+
+% 优化标题提取样式
+% 默认的 \leftmark 带有“第x节”编号，如果你只想显示标题文字，取消下一行注释
+% \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% --- 目录样式设置 ---
+% 目录标题格式
+\renewcommand{\contentsname}{
+    \begin{center}
+        \xiaosan\songti 目\qquad 录
+    \end{center}
+}
+\renewcommand{\cftaftertoctitle}{\vspace{2em}} % 目录标题后空两行
+% 目录只显示到三级标题
+\setcounter{tocdepth}{3}
+% 编号深度
+\setcounter{secnumdepth}{3}
+
+% 编号格式
+\renewcommand{\thesection}{\zhnum{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+% 一级标题（章）在目录中的样式：四号黑体，不缩进
+\renewcommand{\cftsecfont}{\sihao\heiti}         % 目录条目文字字体
+\renewcommand{\cftsecpagefont}{\sihao\heiti}     % 目录页码字体
+\setlength{\cftsecindent}{0em}                   % 左侧缩进
+\setlength{\cftsecnumwidth}{5em}                 % 编号宽度（留够“第1章”的空间）
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % 确保一级标题也有引导点
+% 修正目录中一级标题的编号显示为“第X章”
+\renewcommand{\cftsecpresnum}{第}      % 前缀只写“第”
+\renewcommand{\cftsecaftersnum}{章\quad} % 后缀写“章”加空格
+
+% 二级标题（节）在目录中的样式：小四号宋体，左空2字符
+\renewcommand{\cftsubsecfont}{\xiaosi\songti}
+\renewcommand{\cftsubsecpagefont}{\xiaosi\songti}
+\setlength{\cftsubsecindent}{2em}                % 缩进2字符
+\setlength{\cftsubsecnumwidth}{2em}
+
+% 三级标题（小节）在目录中的样式：小四号宋体，左空4字符
+\renewcommand{\cftsubsubsecfont}{\xiaosi\songti}
+\renewcommand{\cftsubsubsecpagefont}{\xiaosi\songti}
+\setlength{\cftsubsubsecindent}{4em}             % 缩进4字符
+\setlength{\cftsubsubsecnumwidth}{3em}
+
+% --- 论文正文格式 ---
+% 一级标题（章）格式：
+\titleformat{\section}
+  {\centering\sanhao\songti} % 居中 (\centering)、三号 (\sanhao)、宋体 (\songti)
+  {第\thesection 章\quad}    % 第X章
+  {0pt} % 编号与标题之间的距离，小四号（12pt）字号下两个字符空格的长度为24pt
+  {}
+
+% 二级标题（节）格式：
+\titleformat{\subsection}
+  {\sihao\CJKfamily{songti}\bfseries} % 四号 (\sihao)、宋体加粗、居左
+  {\thesubsection\quad}    % 1.1
+  {0pt} % 编号与标题之间的距离，小四号（12pt）字号下两个字符空格的长度为24pt
+  {}
+
+% 三级标题（小节）格式：
+\titleformat{\subsubsection}
+  {\xiaosi\songti} % 小四 (\xiaosi)、宋体 (\songti)、居左
+  {\thesubsubsection\quad}   % 1.1.1
+  {0pt} % 编号与标题之间的距离，小四号（12pt）字号下两个字符空格的长度为24pt
+  {}
+
+% --- 图号按章编号，格式为 图1-1 ---
+\renewcommand{\thefigure}{\arabic{section}-\arabic{figure}} 
+\captionsetup{labelsep=quad} % 编号与文字间空一个全角空格
+
+% % 定义中英文图题字体
+% 中文：五号宋体 (\wuhao\songti)
+% 英文：五号 Times New Roman (\wuhao\rmfamily)
+\DeclareCaptionFont{chinese}{\wuhao\songti}
+\DeclareCaptionFont{english}{\wuhao\rmfamily}
+\captionsetup[bi-first]{
+    font=chinese,
+    textfont=normalfont,
+    name={图},
+}
+\captionsetup[bi-second]{
+    font=english,
+    textfont=normalfont,
+    name={Fig.},
+}
+
+% --- 表号按章编号，格式为 表1-1 ---
+\renewcommand{\thetable}{\arabic{section}-\arabic{table}} 
+
+% 定义表格题注样式
+\DeclareCaptionFont{chinese}{\wuhao\songti}
+\DeclareCaptionFont{english}{\wuhao\rmfamily}
+\captionsetup[table][bi-first]{
+    font=chinese,
+    name={表},
+    labelsep=quad
+}
+\captionsetup[table][bi-second]{
+    font=english,
+    name={Table},
+    labelsep=quad
+}
+% 设置题注在表格上方（符合国家标准）
+\captionsetup[table]{position=top, skip=5pt}
+
+% --- 公式按章编号，格式为 （1-1） ---
+\numberwithin{equation}{section} % 将公式编号绑定到 section (章)
+\renewcommand{\theequation}{\textnormal{\arabic{section}-\arabic{equation}}} % 格式化为：章-序号
+\makeatletter
+\def\tagform@#1{\maketag@@@{\xiaosi(\ignorespaces#1\unskip\@@italiccorr)}}
+\makeatother
+
+% --- 设计与色彩 ---
+\definecolor{codeblue}{RGB}{45, 156, 219}
+\definecolor{codegreen}{RGB}{34, 139, 34}
+\definecolor{backcolour}{RGB}{245, 245, 245}
+
+% --- 代码块配置 (listings) ---
+\lstset{
+    backgroundcolor=\color{backcolour},  % 背景色
+    commentstyle=\color{codegreen},      % 注释颜色
+    keywordstyle=\color{codeblue},       % 关键字颜色
+    numberstyle=\tiny\color{gray},       % 行号样式
+    basicstyle=\ttfamily\small,          % 等宽字体
+    breaklines=true,                     % 自动换行
+    captionpos=b,                        % 标题位置：底部
+    frame=single,                        % 代码框样式
+    showstringspaces=false               % 不显示字符串中的空格
+    extendedchars=false,                 % 解决代码跨页可能导致的编译错误
+    keepspaces=true,                     % 保持空格
+    columns=flexible,                    % 解决代码中英混排时间距过大的问题
+}
+
+% --- 图片与超链接 ---
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=cyan}
