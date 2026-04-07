@@ -41,8 +41,7 @@
 % --- 5. 参考文献 ---
 \newpage
 \phantomsection
-\addcontentsline{toc}{section}{参考文献}
-\bibliographystyle{unsrt} 
-\bibliography{bib/thesis}
+% 这里只用这一行，绝对不要再写 \bibliographystyle
+\printbibliography[heading=bibintoc, title={参考文献}]
 
 \end{document}

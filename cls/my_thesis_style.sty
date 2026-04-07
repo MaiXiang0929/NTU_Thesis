@@ -27,7 +27,15 @@
 \usepackage{amsmath}                % 数学公式支持
 \usepackage{xeCJK}                  % 解决中文与数学公式混排时的字体问题
 \usepackage{hyperref}               % 启用文档内及外部链接跳转
-\usepackage[superscript]{cite}      % 引用文献格式设置为上标
+\usepackage[
+    backend=biber,         % 核心：指定使用 biber 
+    style=gb7714-2015,     % 自动符合国标（南工大要求）
+    maxcitenames=3,        % 超过3人显示“等”
+    mincitenames=3,
+    gbalign=left,
+    autocite=superscript, % \cite 直接变上标引用
+    sorting=none           % 按文中出现顺序编号（unsrt）
+]{biblatex}
 
 % --- 页面布局 ---
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
@@ -204,3 +212,13 @@
 
 % --- 图片与超链接 ---
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=cyan}
+
+% --- 参考文献 ---
+\addbibresource{bib/thesis.bib} 
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=cyan
+}
