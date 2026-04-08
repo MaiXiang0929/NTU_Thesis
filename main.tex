@@ -1,8 +1,7 @@
 \documentclass[twoside, 11pt, a4paper]{article}
 
-% --- 1. 载入样式与宏包 ---
-% 我们将所有的 \usepackage 和格式定义放在 cls/my_thesis_style.cls 中
-% 如果你还没创建 .cls，可以直接把原代码的 Preamble 部分放在这里
+% --- 载入样式与宏包 ---
+% 将所有的 \usepackage 和格式定义放在 cls/my_thesis_style.cls 中
 \usepackage{cls/my_thesis_style} 
 
 \begin{document}
@@ -26,6 +25,8 @@
 \pagenumbering{Roman}
 \input{content/abstract.tex}
 
+% 本模板中目录仅展示到三级标题，且一级标题会显示为“第X章”，
+% 请根据需要调整 cls/my_thesis_style.cls 中的相关设置
 \cleardoublepage
 \markboth{目\qquad 录}{目\qquad 录}
 \fancyhead[EC]{\headerfont 目\quad 录}
@@ -35,6 +36,8 @@
 
 % --- 4. 正文部分 ---
 \pagenumbering{arabic}
+% 下句为示例，编译正式内容时请保持注释或删除
+% \input{content/example.tex}
 \input{content/chapter1.tex}
 
 
