@@ -40,4 +40,4 @@ Thumbs.db
 
 ## --- PDF (Optional) ---
 # 如果你想在 GitHub 预览生成的 PDF，请注释掉下面这行
-# *.pdf
+*.pdf
